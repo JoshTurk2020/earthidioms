@@ -82,19 +82,23 @@
     }
   </style>
 </head>
-  <title>Earth Day Idioms</title>
-</head>
 <body>
-  <div id="intro-screen">
-    <h1>Earth Day Idioms</h1>
-    <button id="start-button">Start Game</button>
+  <div class="container">
+    <div id="intro-screen">
+      <h1>Earth Day Idioms</h1>
+      <button id="start-button">Start Game</button>
+    </div>
+
+    <div id="game-screen" style="display: none;">
+      <h2>Player <span id="current-player">1</span>'s Turn</h2>
+      <p id="idiom"></p>
+      <ul id="options"></ul>
+      <p class="timer">Time Left: <span id="timer">20</span> seconds</p>
+      <p class="score">Player 1 Score: <span id="player1-score">0</span></p>
+      <p class="score">Player 2 Score: <span id="player2-score">0</span></p>
+    </div>
   </div>
-  
-  <div id="game-screen" style="display: none;">
-    <h2>Game Screen</h2>
-    <p>The game will start here.</p>
-  </div>
-  
+
   <script>
     // JavaScript code for the game logic
 
@@ -153,9 +157,9 @@
       console.log("Start button clicked");
       document.getElementById("intro-screen").style.display = "none";
       document.getElementById("game-screen").style.display = "block";
-    }
       // Start the first stage
       startStage();
+    }
 
     // Function to start a new stage
     function startStage() {
