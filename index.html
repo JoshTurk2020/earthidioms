@@ -153,17 +153,18 @@
     let timer;
 
     // Function to start the game
-    function startGame() {
-      console.log("Start button clicked");
-      document.getElementById("intro-screen").style.display = "none";
-      document.getElementById("game-screen").style.display = "block";
-      // Start the first stage
-      startStage();
-    }
+  function startGame() {
+  console.log("Start button clicked");
+  document.getElementById("intro-screen").style.display = "none";
+  document.getElementById("game-screen").style.display = "block";
 
-    // Function to start a new stage
+  // Start the first stage
+  startStage();
+}
+
+// Function to start a new stage
     function startStage() {
-      // Get the idioms for the current stage
+  // Get the idioms for the current stage
       const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
 
       // Select a random idiom from the stage
