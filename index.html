@@ -143,13 +143,17 @@
       0% {
         transform: translateX(-50%) rotate(0deg);
       }
-      50% {
-        transform: translateX(-50%) rotate(45deg);
+      25% {
+        transform: translateX(-50%) rotate(45deg); /* Adjust the rotation midpoint */
+      }
+      75% {
+        transform: translateX(-50%) rotate(45deg); /* Keep the rotation midpoint */
       }
       100% {
         transform: translateX(-50%) rotate(0deg);
       }
     }
+
 
     #player-names {
       margin-bottom: 20px;
