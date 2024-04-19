@@ -317,14 +317,24 @@
     }
     
     // Function to start a new stage
+    // Function to start a new stage
     function startStage() {
-      // Get the idioms for the current stage
-      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
+      // Get the idioms for the current stage that haven't been answered
+      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage && !idiom.answered);
     
-      // Select a random idiom from the stage
+      if (stageIdioms.length === 0) {
+        alert("All questions in this stage have been answered. Moving to the next stage.");
+        currentStage++; // Move to the next stage if all questions have been answered
+        startStage(); // Start the next stage
+        return;
+      }
+    
+      // Select a random idiom from the remaining unanswered questions in this stage
       const randomIndex = Math.floor(Math.random() * stageIdioms.length);
       const selectedIdiom = stageIdioms[randomIndex];
+      selectedIdiom.answered = true; // Mark the selected idiom as answered
       document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
+    
       // Display the idiom and answer options
       document.getElementById("idiom").textContent = selectedIdiom.idiom;
       displayAnswerOptions(selectedIdiom);
@@ -332,6 +342,7 @@
       // Start the timer
       startTimer();
     }
+
     
     // Function to display answer options
     function displayAnswerOptions(selectedIdiom) {
