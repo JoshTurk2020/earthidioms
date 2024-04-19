@@ -389,7 +389,7 @@
     // Function to show the watering can before the answer is selected
     function showWateringCanBefore(playerId) {
       const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-      wateringCanBefore.style.visibility = "visible";
+      wateringCanBefore.style.visibility = "hidden";
     }
     
     // Function to hide the watering can before the answer is selected
@@ -408,7 +408,7 @@
     
       // Show and animate the watering can after the correct answer is selected
       wateringCan.style.visibility = "visible";
-      wateringCan.style.animation = "pour 1s ease-in-out";
+      wateringCan.style.animation = "pour 3s ease-in-out";
     
       setTimeout(() => {
         wateringCan.style.visibility = "hidden";
