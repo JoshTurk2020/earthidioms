@@ -316,7 +316,7 @@
       // Select a random idiom from the stage
       const randomIndex = Math.floor(Math.random() * stageIdioms.length);
       const selectedIdiom = stageIdioms[randomIndex];
-    
+      document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
       // Display the idiom and answer options
       document.getElementById("idiom").textContent = selectedIdiom.idiom;
       displayAnswerOptions(selectedIdiom);
