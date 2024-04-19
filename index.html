@@ -293,6 +293,7 @@
     let player1Score = 0;
     let player2Score = 0;
     let currentStage = 1;
+    let usedIdioms = [];
     let timer;
     
     // Function to start the game
@@ -319,12 +320,21 @@
     
     // Function to start a new stage
     function startStage() {
-      // Get the idioms for the current stage
-      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
+      // Get the idioms for the current stage that haven't been used
+      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage && !usedIdioms.includes(idiom));
+    
+      // If there are no more idioms left for the current stage, move to the next stage
+      if (stageIdioms.length === 0) {
+        currentStage++;
+        startStage();
+        return;
+      }
     
       // Select a random idiom from the stage
       const randomIndex = Math.floor(Math.random() * stageIdioms.length);
       const selectedIdiom = stageIdioms[randomIndex];
+      usedIdioms.push(selectedIdiom); // Add the selected idiom to the used idioms array
+    
       document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
       // Display the idiom and answer options
       document.getElementById("idiom").textContent = selectedIdiom.idiom;
@@ -356,7 +366,7 @@
     
     // Function to start the timer
     function startTimer() {
-      let timeLeft = 20;
+      let timeLeft = 30;
       document.getElementById("timer").textContent = timeLeft;
     
       timer = setInterval(() => {
@@ -370,10 +380,6 @@
         }
       }, 1000);
     
-      // Show the watering can before the answer is selected
-      showWateringCanBefore(currentPlayer);
-    }
-    
     // Function to play sound effects
     function playSound(soundId) {
       const sound = document.getElementById(soundId);
@@ -385,12 +391,6 @@
     function updateFlowerImage(playerId, stage) {
       const flowerImage = document.getElementById(`player${playerId}-flower`);
       flowerImage.src = `left_flower${stage}.png`;
-    }
-    
-    // Function to show the watering can before the answer is selected
-    function showWateringCanBefore(playerId) {
-      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-      wateringCanBefore.style.visibility = "visible";
     }
     
     // Function to hide the watering can before the answer is selected
