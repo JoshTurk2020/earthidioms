@@ -113,9 +113,17 @@
 
     .watering-can {
       position: absolute;
-      top: -100px;
-      left: calc(50% + 50px);
-      transform: translateX(-50%);
+      bottom: -100px;
+      left: -50px; /* Adjusted left position for Player 1's watering can */
+      max-width: 200px;
+      max-height: 200px;
+      visibility: hidden;
+    }
+    
+    .watering-can-right {
+      position: absolute;
+      bottom: -100px;
+      left: calc(50% + 50px); /* Adjusted left position for Player 2's watering can */
       max-width: 200px;
       max-height: 200px;
       visibility: hidden;
