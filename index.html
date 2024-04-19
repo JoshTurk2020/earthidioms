@@ -281,235 +281,238 @@
 
     // Game variables
     let currentPlayer = 1;
-let player1Score = 0;
-let player2Score = 0;
-let currentStage = 1;
-let timer;
-
-// Function to start the game
-function startGame() {
-  const player1Name = document.getElementById("player1-name").value;
-  const player2Name = document.getElementById("player2-name").value;
-
-  if (player1Name && player2Name) {
-    document.getElementById("player1-name-score").textContent = player1Name;
-    document.getElementById("player2-name-score").textContent = player2Name;
-    document.getElementById("player1-name-flower").textContent = player1Name;
-    document.getElementById("player2-name-flower").textContent = player2Name;
-
-    document.getElementById("intro-screen").style.display = "none";
-    document.getElementById("game-screen").style.display = "block";
-    document.getElementById("background-music").play();
-
-    // Start the first stage
-    startStage();
-  } else {
-    alert("Please enter names for both players.");
-  }
-}
-
-// Function to start a new stage
-function startStage() {
-  // Get the idioms for the current stage
-  const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
-
-  // Select a random idiom from the stage
-  const randomIndex = Math.floor(Math.random() * stageIdioms.length);
-  const selectedIdiom = stageIdioms[randomIndex];
-
-  // Display the idiom and answer options
-  document.getElementById("idiom").textContent = selectedIdiom.idiom;
-  displayAnswerOptions(selectedIdiom);
-
-  // Start the timer
-  startTimer();
-}
-
-// Function to display answer options
-function displayAnswerOptions(selectedIdiom) {
-  const options = document.getElementById("options");
-  options.innerHTML = "";
-
-  // Create an array of answer options
-  const answerOptions = [selectedIdiom.meaning, ...selectedIdiom.incorrectOptions];
-
-  // Shuffle the answer options
-  shuffleArray(answerOptions);
-
-  // Create list items for each answer option
-  answerOptions.forEach(option => {
-    const li = document.createElement("li");
-    li.textContent = option;
-    li.addEventListener("click", () => checkAnswer(option, selectedIdiom.meaning));
-    options.appendChild(li);
-  });
-}
-
-// Function to start the timer
-function startTimer() {
-  let timeLeft = 20;
-  document.getElementById("timer").textContent = timeLeft;
-
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = timeLeft;
-
-    if (timeLeft === 0) {
-      clearInterval(timer);
-      showCorrectAnswer();
-      switchPlayer();
-    }
-  }, 1000);
-
-  // Show the watering can before the answer is selected
-  showWateringCanBefore(currentPlayer);
-}
-
-// Function to play sound effects
-function playSound(soundId) {
-  const sound = document.getElementById(soundId);
-  sound.currentTime = 0;
-  sound.play();
-}
-
-// Function to update the flower image
-function updateFlowerImage(playerId, stage) {
-  const flowerImage = document.getElementById(`player${playerId}-flower`);
-  flowerImage.src = `left_flower${stage}.png`;
-}
-
-// Function to show the watering can before the answer is selected
-function showWateringCanBefore(playerId) {
-  const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-  wateringCanBefore.style.visibility = "visible";
-}
-
-// Function to hide the watering can before the answer is selected
-function hideWateringCanBefore(playerId) {
-  const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-  wateringCanBefore.style.visibility = "hidden";
-}
-
-// Function to animate the watering can
-function animateWateringCan(playerId) {
-  const wateringCan = document.getElementById(`player${playerId}-watering-can`);
-  const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-
-  // Hide the watering can before the answer is selected
-  wateringCanBefore.style.visibility = "hidden";
-
-  // Show and animate the watering can after the correct answer is selected
-  wateringCan.style.visibility = "visible";
-  wateringCan.style.animation = "pour 1s ease-in-out";
-
-  setTimeout(() => {
-    wateringCan.style.visibility = "hidden";
-    wateringCan.style.animation = "";
-  }, 1000);
-}
-
-// Function to show the message box
-function showMessageBox() {
-  const messageBox = document.getElementById("message-box");
-  messageBox.style.display = "block";
-}
-
-// Function to hide the message box
-function hideMessageBox() {
-  const messageBox = document.getElementById("message-box");
-  messageBox.style.display = "none";
-}
-
-// Function to check the selected answer
-function checkAnswer(selectedOption, correctAnswer) {
-  clearInterval(timer);
-
-  if (selectedOption === correctAnswer) {
-    // Increment the score for the current player
-    if (currentPlayer === 1) {
-      player1Score++;
-      document.getElementById("player1-score").textContent = player1Score;
-    } else {
-      player2Score++;
-      document.getElementById("player2-score").textContent = player2Score;
-    }
-
-    // Play correct answer sound
-    playSound("correct-sound");
-
-    // Update the flower image
-    const currentScore = currentPlayer === 1 ? player1Score : player2Score;
-    updateFlowerImage(currentPlayer, currentScore);
-
-    // Show the watering can after the correct answer is selected
-    animateWateringCan(currentPlayer);
-
-    // Show the message box
-    showMessageBox();
-
-    // Check if the current player has reached five correct answers
-    if (currentScore === 5) {
-      endGame(currentPlayer);
-    } else {
-      // Delay the next question for 4 seconds
-      setTimeout(() => {
-        hideMessageBox();
+    let player1Score = 0;
+    let player2Score = 0;
+    let currentStage = 1;
+    let timer;
+    
+    // Function to start the game
+    function startGame() {
+      const player1Name = document.getElementById("player1-name").value;
+      const player2Name = document.getElementById("player2-name").value;
+    
+      if (player1Name && player2Name) {
+        document.getElementById("player1-name-score").textContent = player1Name;
+        document.getElementById("player2-name-score").textContent = player2Name;
+        document.getElementById("player1-name-flower").textContent = player1Name;
+        document.getElementById("player2-name-flower").textContent = player2Name;
+    
+        document.getElementById("intro-screen").style.display = "none";
+        document.getElementById("game-screen").style.display = "block";
+        document.getElementById("background-music").play();
+    
+        // Start the first stage
         startStage();
-      }, 4000);
+      } else {
+        alert("Please enter names for both players.");
+      }
     }
-  } else {
-    // Play incorrect answer sound
-    playSound("incorrect-sound");
-
-    showCorrectAnswer();
-    switchPlayer();
-  }
-}
-
-// Function to show the correct answer
-function showCorrectAnswer() {
-  const idiom = document.getElementById("idiom").textContent;
-  const correctAnswer = idioms.find(item => item.idiom === idiom).meaning;
-  alert(`Time's up! The correct answer is: ${correctAnswer}`);
-}
-
-// Function to switch the current player
-function switchPlayer() {
-  currentPlayer = currentPlayer === 1 ? 2 : 1;
-  document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
-  startStage();
-}
-
-// Function to end the game
-function endGame(winnerId) {
-  // Display the winner GIF
-  const winnerGif = document.getElementById("winner-gif");
-  winnerGif.style.display = "block";
-
-  // Display the winner message
-  const winnerName = winnerId === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
-  alert(`Congratulations, ${winnerName}! You win!`);
-
-  // Reset the game variables and show the intro screen
-  currentPlayer = 1;
-  player1Score = 0;
-  player2Score = 0;
-  currentStage = 1;
-  document.getElementById("intro-screen").style.display = "block";
-  document.getElementById("game-screen").style.display = "none";
-  document.getElementById("background-music").pause();
-  document.getElementById("background-music").currentTime = 0;
-  winnerGif.style.display = "none";
-}
-
-// Function to shuffle an array
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-// Event listener for the start button
-document.getElementById("start-button").addEventListener("click", startGame);
-}
+    
+    // Function to start a new stage
+    function startStage() {
+      // Get the idioms for the current stage
+      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
+    
+      // Select a random idiom from the stage
+      const randomIndex = Math.floor(Math.random() * stageIdioms.length);
+      const selectedIdiom = stageIdioms[randomIndex];
+    
+      // Display the idiom and answer options
+      document.getElementById("idiom").textContent = selectedIdiom.idiom;
+      displayAnswerOptions(selectedIdiom);
+    
+      // Start the timer
+      startTimer();
+    }
+    
+    // Function to display answer options
+    function displayAnswerOptions(selectedIdiom) {
+      const options = document.getElementById("options");
+      options.innerHTML = "";
+    
+      // Create an array of answer options
+      const answerOptions = [selectedIdiom.meaning, ...selectedIdiom.incorrectOptions];
+    
+      // Shuffle the answer options
+      shuffleArray(answerOptions);
+    
+      // Create list items for each answer option
+      answerOptions.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        li.addEventListener("click", () => checkAnswer(option, selectedIdiom.meaning));
+        options.appendChild(li);
+      });
+    }
+    
+    // Function to start the timer
+    function startTimer() {
+      let timeLeft = 20;
+      document.getElementById("timer").textContent = timeLeft;
+    
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").textContent = timeLeft;
+    
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          showCorrectAnswer();
+          switchPlayer();
+        }
+      }, 1000);
+    
+      // Show the watering can before the answer is selected
+      showWateringCanBefore(currentPlayer);
+    }
+    
+    // Function to play sound effects
+    function playSound(soundId) {
+      const sound = document.getElementById(soundId);
+      sound.currentTime = 0;
+      sound.play();
+    }
+    
+    // Function to update the flower image
+    function updateFlowerImage(playerId, stage) {
+      const flowerImage = document.getElementById(`player${playerId}-flower`);
+      flowerImage.src = `left_flower${stage}.png`;
+    }
+    
+    // Function to show the watering can before the answer is selected
+    function showWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "visible";
+    }
+    
+    // Function to hide the watering can before the answer is selected
+    function hideWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "hidden";
+    }
+    
+    // Function to animate the watering can
+    function animateWateringCan(playerId) {
+      const wateringCan = document.getElementById(`player${playerId}-watering-can`);
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+    
+      // Hide the watering can before the answer is selected
+      wateringCanBefore.style.visibility = "hidden";
+    
+      // Show and animate the watering can after the correct answer is selected
+      wateringCan.style.visibility = "visible";
+      wateringCan.style.animation = "pour 1s ease-in-out";
+    
+      setTimeout(() => {
+        wateringCan.style.visibility = "hidden";
+        wateringCan.style.animation = "";
+      }, 1000);
+    }
+    
+    // Function to show the message box
+    function showMessageBox() {
+      const messageBox = document.getElementById("message-box");
+      messageBox.style.display = "block";
+    }
+    
+    // Function to hide the message box
+    function hideMessageBox() {
+      const messageBox = document.getElementById("message-box");
+      messageBox.style.display = "none";
+    }
+    
+    // Function to check the selected answer
+    function checkAnswer(selectedOption, correctAnswer) {
+      clearInterval(timer);
+    
+      if (selectedOption === correctAnswer) {
+        // Increment the score for the current player
+        if (currentPlayer === 1) {
+          player1Score++;
+          document.getElementById("player1-score").textContent = player1Score;
+        } else {
+          player2Score++;
+          document.getElementById("player2-score").textContent = player2Score;
+        }
+    
+        // Play correct answer sound
+        playSound("correct-sound");
+    
+        // Update the flower image
+        const currentScore = currentPlayer === 1 ? player1Score : player2Score;
+        updateFlowerImage(currentPlayer, currentScore);
+    
+        // Show the watering can after the correct answer is selected
+        animateWateringCan(currentPlayer);
+    
+        // Show the message box
+        showMessageBox();
+    
+        // Check if the current player has reached five correct answers
+        if (currentScore === 5) {
+          endGame(currentPlayer);
+        } else {
+          // Delay the next question for 4 seconds
+          setTimeout(() => {
+            hideMessageBox();
+            startStage();
+          }, 4000);
+        }
+      } else {
+        // Play incorrect answer sound
+        playSound("incorrect-sound");
+    
+        showCorrectAnswer();
+        switchPlayer();
+      }
+    }
+    
+    // Function to show the correct answer
+    function showCorrectAnswer() {
+      const idiom = document.getElementById("idiom").textContent;
+      const correctAnswer = idioms.find(item => item.idiom === idiom).meaning;
+      alert(`Time's up! The correct answer is: ${correctAnswer}`);
+    }
+    
+    // Function to switch the current player
+    function switchPlayer() {
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
+      startStage();
+    }
+    
+    // Function to end the game
+    function endGame(winnerId) {
+      // Display the winner GIF
+      const winnerGif = document.getElementById("winner-gif");
+      winnerGif.style.display = "block";
+    
+      // Display the winner message
+      const winnerName = winnerId === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
+      alert(`Congratulations, ${winnerName}! You win!`);
+    
+      // Reset the game variables and show the intro screen
+      currentPlayer = 1;
+      player1Score = 0;
+      player2Score = 0;
+      currentStage = 1;
+      document.getElementById("intro-screen").style.display = "block";
+      document.getElementById("game-screen").style.display = "none";
+      document.getElementById("background-music").pause();
+      document.getElementById("background-music").currentTime = 0;
+      winnerGif.style.display = "none";
+    }
+    
+    // Function to shuffle an array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    
+    // Event listener for the start button
+    document.getElementById("start-button").addEventListener("click", startGame);
+    }
+  </script>
+</body>
+</html>
