@@ -439,6 +439,7 @@
     }
     
     // Function to check the selected answer
+    // Function to check the selected answer
     function checkAnswer(selectedOption, correctAnswer) {
       clearInterval(timer);
     
@@ -455,9 +456,11 @@
         // Play correct answer sound
         playSound("correct-sound");
     
-        // Update the flower image
+        // Update the flower image if the current score is less than 5
         const currentScore = currentPlayer === 1 ? player1Score : player2Score;
-        updateFlowerImage(currentPlayer, currentScore);
+        if (currentScore <= 5) {
+          updateFlowerImage(currentPlayer, currentScore);
+        }
     
         // Show the watering can after the correct answer is selected
         animateWateringCan(currentPlayer);
@@ -466,7 +469,7 @@
         showMessageBox();
     
         // Check if the current player has reached five correct answers
-        if (currentScore === 10) {
+        if (currentScore === 5) {
           endGame(currentPlayer);
         } else {
           // Delay the next question for 4 seconds
@@ -483,6 +486,7 @@
         switchPlayer();
       }
     }
+
     
     // Function to show the correct answer
     function showCorrectAnswer() {
