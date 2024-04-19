@@ -520,6 +520,11 @@
 
     // Event listener for the start button
     document.getElementById("start-button").addEventListener("click", startGame);
+
+    // Event listener for removing the watering can before answers are selected
+    document.getElementById("options").addEventListener("click", () => {
+      hideWateringCanBefore(currentPlayer);
+    });
   </script>
 </body>
 </html>
