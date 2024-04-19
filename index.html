@@ -15,12 +15,12 @@
     }
 
     .container {
-      max-width: none; /* Remove this line */
-      margin: 0;
-      padding: 0;
-      background-color: transparent; /* Make the background transparent */
-      box-shadow: none; /* Remove the box shadow */
-      border-radius: 0; /* Remove the border radius */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
       text-align: center;
     }
 
@@ -97,15 +97,14 @@
 
     .flower-container {
       position: relative;
-      width: 300px; /* Increase the width */
-      height: 300px; /* Increase the height */
+      width: 200px;
+      height: 200px;
       margin: 0 auto;
-      bottom: 0; /* Position the container at the bottom */
     }
 
     .flower {
       position: absolute;
-      bottom: 0; /* Position the flower at the bottom */
+      bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       max-width: 100%;
@@ -293,12 +292,10 @@
     let player1Score = 0;
     let player2Score = 0;
     let currentStage = 1;
-    let usedIdioms = [];
     let timer;
     
     // Function to start the game
     function startGame() {
-      console.log("Start button clicked"); // Added console log
       const player1Name = document.getElementById("player1-name").value;
       const player2Name = document.getElementById("player2-name").value;
     
@@ -321,21 +318,12 @@
     
     // Function to start a new stage
     function startStage() {
-      // Get the idioms for the current stage that haven't been used
-      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage && !usedIdioms.includes(idiom));
-    
-      // If there are no more idioms left for the current stage, move to the next stage
-      if (stageIdioms.length === 0) {
-        currentStage++;
-        startStage();
-        return;
-      }
+      // Get the idioms for the current stage
+      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
     
       // Select a random idiom from the stage
       const randomIndex = Math.floor(Math.random() * stageIdioms.length);
       const selectedIdiom = stageIdioms[randomIndex];
-      usedIdioms.push(selectedIdiom); // Add the selected idiom to the used idioms array
-    
       document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
       // Display the idiom and answer options
       document.getElementById("idiom").textContent = selectedIdiom.idiom;
@@ -367,7 +355,7 @@
     
     // Function to start the timer
     function startTimer() {
-      let timeLeft = 30;
+      let timeLeft = 20;
       document.getElementById("timer").textContent = timeLeft;
     
       timer = setInterval(() => {
@@ -381,6 +369,10 @@
         }
       }, 1000);
     
+      // Show the watering can before the answer is selected
+      showWateringCanBefore(currentPlayer);
+    }
+    
     // Function to play sound effects
     function playSound(soundId) {
       const sound = document.getElementById(soundId);
@@ -392,6 +384,12 @@
     function updateFlowerImage(playerId, stage) {
       const flowerImage = document.getElementById(`player${playerId}-flower`);
       flowerImage.src = `left_flower${stage}.png`;
+    }
+    
+    // Function to show the watering can before the answer is selected
+    function showWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "visible";
     }
     
     // Function to hide the watering can before the answer is selected
@@ -505,7 +503,6 @@
       player1Score = 0;
       player2Score = 0;
       currentStage = 1;
-      usedIdioms = []; // Reset the used idioms array
       document.getElementById("intro-screen").style.display = "block";
       document.getElementById("game-screen").style.display = "none";
       document.getElementById("background-music").pause();
@@ -515,14 +512,12 @@
 
     // Function to shuffle an array
     function shuffleArray(array) {
-    function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+        [array[i], array[j]] = [array[j], array[i]];
       }
     }
+
     // Event listener for the start button
     document.getElementById("start-button").addEventListener("click", startGame);
   </script>
