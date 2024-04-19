@@ -111,30 +111,23 @@
       max-height: 100%;
     }
 
-    .flower.stage-3,
-    .flower.stage-4,
-    .flower.stage-5 {
-      max-width: 80%;
-      max-height: 80%;
-    }
-
     .watering-can {
       position: absolute;
-      top: -100px;
+      top: -50px;
       left: 50%;
       transform: translateX(-50%);
-      max-width: 200px;
-      max-height: 200px;
+      max-width: 100px;
+      max-height: 100px;
       visibility: hidden;
     }
 
     .watering-can-before {
       position: absolute;
-      top: -100px;
+      top: -50px;
       left: 50%;
       transform: translateX(-50%);
-      max-width: 200px;
-      max-height: 200px;
+      max-width: 100px;
+      max-height: 100px;
       visibility: hidden;
     }
 
@@ -150,7 +143,8 @@
       }
     }
 
-    #playe      margin-bottom: 20px;
+    #player-names {
+      margin-bottom: 20px;
     }
 
     #player-names input {
@@ -169,26 +163,25 @@
       padding: 20px;
       font-size: 24px;
       border-radius: 5px;
-      z-index: 9999;      display: none;
+      z-index: 9999;
+      display: none;
     }
 
     .winner-gif {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);      max-width: 400px;
+      transform: translate(-50%, -50%);
+      max-width: 400px;
       max-height: 400px;
       z-index: 9999;
       display: none;
     }
+
     .intro-gif {
       max-width: 400px;
       max-height: 400px;
-      mar    }
-
-    .player-name {
-      font-size: 18px;
-      margin-top: 10px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -208,26 +201,27 @@
       <h2><span id="current-player-name"></span>'s Turn</h2>
       <p id="idiom"></p>
       <ul id="options"></ul>
-      <p class="timer">Time Left: <span id="timer">20</span> seconds</p>
+      <p class="timer">Time Left: <span id="timer">30</span> seconds</p>
       <p class="score"><span id="player1-name-score"></span> Score: <span id="player1-score">0</span></p>
       <p class="score"><span id="player2-name-score"></span> Score: <span id="player2-score">0</span></p>
 
       <div class="player-section">
         <div class="player">
+          <p><span id="player1-name-flower"></span></p>
           <div class="flower-container">
             <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower">
             <img id="player1-watering-can-before" class="watering-can-before" src="left_watercan.png" alt="Watering Can Before">
             <img id="player1-watering-can" class="watering-can" src="left_watercan.gif" alt="Watering Can">
           </div>
-          <p class="player-name"><span id="player1-name-flower"></span></p>
         </div>
         <div class="player">
+          <p><span id="player2-name-flower"></span></p>
           <div class="flower-container">
             <img id="player2-flower" class="flower" src="left_flower1.png" alt="Player 2 Flower">
             <img id="player2-watering-can-before" class="watering-can-before" src="right_watercan.png" alt="Watering Can Before">
             <img id="player2-watering-can" class="watering-can" src="right_watercan.gif" alt="Watering Can">
           </div>
-          <p class="player-name"><sp        </div>
+        </div>
       </div>
     </div>
 
@@ -240,109 +234,108 @@
   <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 
   <script>
+    // JavaScript code for the game logic
+
+    // Array of idioms and their meanings
+    const idioms = [
+      { idiom: "Green thumb", meaning: "Talent for gardening", stage: 1, incorrectOptions: ["Inexperience with plants", "Fear of nature", "Preference for artificial plants"] },
+      { idiom: "Reduce, Reuse, Recycle", meaning: "Minimize waste and conserve resources", stage: 1, incorrectOptions: ["Ignore environmental concerns", "Increase consumption", "Dispose of everything"] },
+      { idiom: "Eco-friendly", meaning: "Not harmful to the environment", stage: 1, incorrectOptions: ["Destructive to nature", "Indifferent to conservation", "Unsustainable practices"] },
+      { idiom: "Carbon footprint", meaning: "Amount of carbon dioxide released due to activities", stage: 1, incorrectOptions: ["Physical shoe size", "Imprint left in the soil", "Fossil fuel reserves"] },
+
+      // Stage 2 idioms
+      { idiom: "Think globally, act locally", meaning: "Consider the planet, take action in your community", stage: 2, incorrectOptions: ["Ignore worldwide issues", "Focus only on personal gain", "Neglect neighborhood concerns"] },
+      { idiom: "Renewable energy", meaning: "Energy from naturally replenished sources", stage: 2, incorrectOptions: ["Finite resources", "Fossil fuel-based power", "Non-recyclable materials"] },
+      { idiom: "Sustainable development", meaning: "Meeting present needs without compromising the future", stage: 2, incorrectOptions: ["Short-term gains at any cost", "Disregard for long-term impact", "Exploitation of resources"] },
+      { idiom: "Green jobs", meaning: "Employment in environmentally sustainable sectors", stage: 2, incorrectOptions: ["Careers harmful to the planet", "Unsustainable industries", "Occupations with high carbon emissions"] },
+
+      // Stage 3 idioms
+      { idiom: "The three R's", meaning: "Reduce, Reuse, Recycle", stage: 3, incorrectOptions: ["Reading, Writing, Arithmetic", "Red, Green, Blue", "Rock, Paper, Scissors"] },
+      { idiom: "Carbon neutral", meaning: "Having a net zero carbon footprint", stage: 3, incorrectOptions: ["Favoring carbon emissions", "Indifference to carbon balance", "Promoting excessive carbon dioxide"] },
+      { idiom: "Circular economy", meaning: "System of reuse and recycling to minimize waste", stage: 3, incorrectOptions: ["Linear production and disposal", "Disregard for resource efficiency", "Encouraging single-use products"] },
+      { idiom: "Farm to table", meaning: "Food sourced directly from local farmers", stage: 3, incorrectOptions: ["Imported and processed meals", "Genetically modified ingredients", "Unsustainable agricultural practices"] },
   
-        const idioms = [
-            { idiom: "Green thumb", meaning: "Talent for gardening", stage: 1, incorrectOptions: ["Inexperience with plants", "Fear of nature", "Preference for artificial plants"] },
-            { idiom: "Reduce, Reuse, Recycle", meaning: "Minimize waste and conserve resources", stage: 1, incorrectOptions: ["Ignore environmental concerns", "Increase consumption", "Dispose of everything"] },
-            { idiom: "Eco-friendly", meaning: "Not harmful to the environment", stage: 1, incorrectOptions: ["Destructive to nature", "Indifferent to conservation", "Unsustainable practices"] },
-            { idiom: "Carbon footprint", meaning: "Amount of carbon dioxide released due to activities", stage: 1, incorrectOptions: ["Physical shoe size", "Imprint left in the soil", "Fossil fuel reserves"] },
+    // Stage 6 idioms
+      { idiom: "Low-hanging fruit", meaning: "Targets that are easily achievable", stage: 6, incorrectOptions: ["High-risk ventures", "Complex challenges", "Unreachable goals"] },
+      { idiom: "Off the grid", meaning: "Living without reliance on public utilities", stage: 6, incorrectOptions: ["Fully connected lifestyle", "Urban living", "Dependence on centralized services"] },
+      { idiom: "Tipping point", meaning: "Critical moment leading to significant change", stage: 6, incorrectOptions: ["Stable condition", "Static situation", "Unchanging state"] },
+      { idiom: "Urban sprawl", meaning: "Uncontrolled expansion of urban areas", stage: 6, incorrectOptions: ["Rural consolidation", "City planning", "Compact urban development"] },
+      
+      // Stage 8 idioms
+      { idiom: "Carbon footprint", meaning: "Total greenhouse gas emissions caused by an individual, organization, or product", stage: 8, incorrectOptions: ["Ecological footprint", "Sustainable footprint", "Carbon neutral"] },
+      { idiom: "Greenwashing", meaning: "Misleading claims about the environmental benefits of a product or service", stage: 8, incorrectOptions: ["Authentic environmentalism", "Transparent marketing", "Environmental stewardship"] },
+      { idiom: "Peak oil", meaning: "Point in time when global oil production reaches its maximum rate", stage: 8, incorrectOptions: ["Abundant oil reserves", "Renewable energy dominance", "Unlimited oil extraction"] },
+      { idiom: "Water footprint", meaning: "Total volume of freshwater used to produce goods and services", stage: 8, incorrectOptions: ["Water conservation", "Water abundance", "Drought management"] },
+      
+      // Stage 12 idioms
+      { idiom: "Carbon capture and storage (CCS)", meaning: "Technology to capture carbon dioxide emissions from industrial sources and store them underground", stage: 12, incorrectOptions: ["Carbon emissions increase", "Natural carbon sequestration", "Carbon offsetting"] },
+      { idiom: "Climate refugees", meaning: "People forced to leave their homes due to climate change-induced environmental disasters", stage: 12, incorrectOptions: ["Stable population movement", "Voluntary migration", "Climate adaptation"] },
+      { idiom: "Ecological overshoot", meaning: "Consumption of resources exceeding the Earth's regenerative capacity", stage: 12, incorrectOptions: ["Sustainable resource utilization", "Environmental equilibrium", "Resource abundance"] },
+      { idiom: "Renewable energy", meaning: "Energy derived from sources that are naturally replenished on a human timescale", stage: 12, incorrectOptions: ["Fossil fuel dependence", "Non-renewable energy", "Energy scarcity"] },
 
-            // Stage 2 idioms
-            { idiom: "Think globally, act locally", meaning: "Consider the planet, take action in your community", stage: 2, incorrectOptions: ["Ignore worldwide issues", "Focus only on personal gain", "Neglect neighborhood concerns"] },
-            { idiom: "Renewable energy", meaning: "Energy from naturally replenished sources", stage: 2, incorrectOptions: ["Finite resources", "Fossil fuel-based power", "Non-recyclable materials"] },
-            { idiom: "Sustainable development", meaning: "Meeting present needs without compromising the future", stage: 2, incorrectOptions: ["Short-term gains at any cost", "Disregard for long-term impact", "Exploitation of resources"] },
-            { idiom: "Green jobs", meaning: "Employment in environmentally sustainable sectors", stage: 2, incorrectOptions: ["Careers harmful to the planet", "Unsustainable industries", "Occupations with high carbon emissions"] },
+      { idiom: "The Anthropocene", meaning: "Current geological age shaped by human activity", stage: 10, incorrectOptions: ["Pre-human era", "Future post-human period", "Time of minimal human influence"] },
+      { idiom: "Cradle-to-cradle design", meaning: "Products designed for continuous reuse", stage: 10, incorrectOptions: ["Disposable and non-recyclable items", "Linear production model", "Planned obsolescence approach"] },
+      { idiom: "Biomimicry", meaning: "Emulating nature's patterns and strategies in design", stage: 10, incorrectOptions: ["Disregarding ecological principles", "Favoring artificial solutions", "Neglecting natural wisdom"] },
+      { idiom: "Regenerative agriculture", meaning: "Farming practices that restore soil health", stage: 10, incorrectOptions: ["Destructive crop cultivation", "Intensive chemical usage", "Monoculture planting"] }
+    ];
 
-            // Stage 3 idioms
-            { idiom: "The three R's", meaning: "Reduce, Reuse, Recycle", stage: 3, incorrectOptions: ["Reading, Writing, Arithmetic", "Red, Green, Blue", "Rock, Paper, Scissors"] },
-            { idiom: "Carbon neutral", meaning: "Having a net zero carbon footprint", stage: 3, incorrectOptions: ["Favoring carbon emissions", "Indifference to carbon balance", "Promoting excessive carbon dioxide"] },
-            { idiom: "Circular economy", meaning: "System of reuse and recycling to minimize waste", stage: 3, incorrectOptions: ["Linear production and disposal", "Disregard for resource efficiency", "Encouraging single-use products"] },
-            { idiom: "Farm to table", meaning: "Food sourced directly from local farmers", stage: 3, incorrectOptions: ["Imported and processed meals", "Genetically modified ingredients", "Unsustainable agricultural practices"] },
-        
-          // Stage 6 idioms
-            { idiom: "Low-hanging fruit", meaning: "Targets that are easily achievable", stage: 6, incorrectOptions: ["High-risk ventures", "Complex challenges", "Unreachable goals"] },
-            { idiom: "Off the grid", meaning: "Living without reliance on public utilities", stage: 6, incorrectOptions: ["Fully connected lifestyle", "Urban living", "Dependence on centralized services"] },
-            { idiom: "Tipping point", meaning: "Critical moment leading to significant change", stage: 6, incorrectOptions: ["Stable condition", "Static situation", "Unchanging state"] },
-            { idiom: "Urban sprawl", meaning: "Uncontrolled expansion of urban areas", stage: 6, incorrectOptions: ["Rural consolidation", "City planning", "Compact urban development"] },
-            
-            // Stage 8 idioms
-            { idiom: "Carbon footprint", meaning: "Total greenhouse gas emissions caused by an individual, organization, or product", stage: 8, incorrectOptions: ["Ecological footprint", "Sustainable footprint", "Carbon neutral"] },
-            { idiom: "Greenwashing", meaning: "Misleading claims about the environmental benefits of a product or service", stage: 8, incorrectOptions: ["Authentic environmentalism", "Transparent marketing", "Environmental stewardship"] },
-            { idiom: "Peak oil", meaning: "Point in time when global oil production reaches its maximum rate", stage: 8, incorrectOptions: ["Abundant oil reserves", "Renewable energy dominance", "Unlimited oil extraction"] },
-            { idiom: "Water footprint", meaning: "Total volume of freshwater used to produce goods and services", stage: 8, incorrectOptions: ["Water conservation", "Water abundance", "Drought management"] },
-            
-            // Stage 12 idioms
-            { idiom: "Carbon capture and storage (CCS)", meaning: "Technology to capture carbon dioxide emissions from industrial sources and store them underground", stage: 12, incorrectOptions: ["Carbon emissions increase", "Natural carbon sequestration", "Carbon offsetting"] },
-            { idiom: "Climate refugees", meaning: "People forced to leave their homes due to climate change-induced environmental disasters", stage: 12, incorrectOptions: ["Stable population movement", "Voluntary migration", "Climate adaptation"] },
-            { idiom: "Ecological overshoot", meaning: "Consumption of resources exceeding the Earth's regenerative capacity", stage: 12, incorrectOptions: ["Sustainable resource utilization", "Environmental equilibrium", "Resource abundance"] },
-            { idiom: "Renewable energy", meaning: "Energy derived from sources that are naturally replenished on a human timescale", stage: 12, incorrectOptions: ["Fossil fuel dependence", "Non-renewable energy", "Energy scarcity"] },
-
-            { idiom: "The Anthropocene", meaning: "Current geological age shaped by human activity", stage: 10, incorrectOptions: ["Pre-human era", "Future post-human period", "Time of minimal human influence"] },
-            { idiom: "Cradle-to-cradle design", meaning: "Products designed for continuous reuse", stage: 10, incorrectOptions: ["Disposable and non-recyclable items", "Linear production model", "Planned obsolescence approach"] },
-            { idiom: "Biomimicry", meaning: "Emulating nature's patterns and strategies in design", stage: 10, incorrectOptions: ["Disregarding ecological principles", "Favoring artificial solutions", "Neglecting natural wisdom"] },
-            { idiom: "Regenerative agriculture", meaning: "Farming practices that restore soil health", stage: 10, incorrectOptions: ["Destructive crop cultivation", "Intensive chemical usage", "Monoculture planting"] }
-          ];
-
-
-
+    // Game variables
     let currentPlayer = 1;
     let player1Score = 0;
     let player2Score = 0;
     let currentStage = 1;
     let timer;
-    let usedIdioms = [];
-
+    
     // Function to start the game
     function startGame() {
       const player1Name = document.getElementById("player1-name").value;
       const player2Name = document.getElementById("player2-name").value;
-
+    
       if (player1Name && player2Name) {
         document.getElementById("player1-name-score").textContent = player1Name;
         document.getElementById("player2-name-score").textContent = player2Name;
         document.getElementById("player1-name-flower").textContent = player1Name;
         document.getElementById("player2-name-flower").textContent = player2Name;
-
+    
         document.getElementById("intro-screen").style.display = "none";
         document.getElementById("game-screen").style.display = "block";
         document.getElementById("background-music").play();
-
+    
         // Start the first stage
         startStage();
       } else {
         alert("Please enter names for both players.");
       }
     }
-
+    
     // Function to start a new stage
     function startStage() {
-      // Get the idioms for the current stage that haven't been used
-      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage && !usedIdioms.includes(idiom));
-
+      // Get the idioms for the current stage
+      const stageIdioms = idioms.filter(idiom => idiom.stage === currentStage);
+    
       // Select a random idiom from the stage
       const randomIndex = Math.floor(Math.random() * stageIdioms.length);
       const selectedIdiom = stageIdioms[randomIndex];
-      usedIdioms.push(selectedIdiom);
-
+    
       // Display the idiom and answer options
       document.getElementById("idiom").textContent = selectedIdiom.idiom;
       displayAnswerOptions(selectedIdiom);
-
+    
       // Start the timer
       startTimer();
     }
-
+    
     // Function to display answer options
     function displayAnswerOptions(selectedIdiom) {
       const options = document.getElementById("options");
       options.innerHTML = "";
-
+    
       // Create an array of answer options
       const answerOptions = [selectedIdiom.meaning, ...selectedIdiom.incorrectOptions];
-
+    
       // Shuffle the answer options
       shuffleArray(answerOptions);
-
+    
       // Create list items for each answer option
       answerOptions.forEach(option => {
         const li = document.createElement("li");
@@ -351,87 +344,86 @@
         options.appendChild(li);
       });
     }
-
+    
     // Function to start the timer
     function startTimer() {
       let timeLeft = 20;
       document.getElementById("timer").textContent = timeLeft;
-
+    
       timer = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").textContent = timeLeft;
-
+    
         if (timeLeft === 0) {
           clearInterval(timer);
           showCorrectAnswer();
           switchPlayer();
         }
       }, 1000);
-
+    
       // Show the watering can before the answer is selected
       showWateringCanBefore(currentPlayer);
     }
-
+    
     // Function to play sound effects
     function playSound(soundId) {
       const sound = document.getElementById(soundId);
       sound.currentTime = 0;
       sound.play();
     }
-
+    
     // Function to update the flower image
     function updateFlowerImage(playerId, stage) {
       const flowerImage = document.getElementById(`player${playerId}-flower`);
-      flowerImage.src = `flower${stage}.png`;
-      flowerImage.classList.add(`stage-${stage}`);
+      flowerImage.src = `left_flower${stage}.png`;
     }
-
+    
     // Function to show the watering can before the answer is selected
     function showWateringCanBefore(playerId) {
       const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
       wateringCanBefore.style.visibility = "visible";
     }
-
+    
     // Function to hide the watering can before the answer is selected
     function hideWateringCanBefore(playerId) {
       const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
       wateringCanBefore.style.visibility = "hidden";
     }
-
+    
     // Function to animate the watering can
     function animateWateringCan(playerId) {
       const wateringCan = document.getElementById(`player${playerId}-watering-can`);
       const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-
+    
       // Hide the watering can before the answer is selected
       wateringCanBefore.style.visibility = "hidden";
-
+    
       // Show and animate the watering can after the correct answer is selected
       wateringCan.style.visibility = "visible";
       wateringCan.style.animation = "pour 1s ease-in-out";
-
+    
       setTimeout(() => {
         wateringCan.style.visibility = "hidden";
         wateringCan.style.animation = "";
       }, 1000);
     }
-
+    
     // Function to show the message box
     function showMessageBox() {
       const messageBox = document.getElementById("message-box");
       messageBox.style.display = "block";
     }
-
+    
     // Function to hide the message box
     function hideMessageBox() {
       const messageBox = document.getElementById("message-box");
       messageBox.style.display = "none";
     }
-
+    
     // Function to check the selected answer
     function checkAnswer(selectedOption, correctAnswer) {
       clearInterval(timer);
-
+    
       if (selectedOption === correctAnswer) {
         // Increment the score for the current player
         if (currentPlayer === 1) {
@@ -441,25 +433,23 @@
           player2Score++;
           document.getElementById("player2-score").textContent = player2Score;
         }
-
+    
         // Play correct answer sound
         playSound("correct-sound");
-
+    
         // Update the flower image
         const currentScore = currentPlayer === 1 ? player1Score : player2Score;
         updateFlowerImage(currentPlayer, currentScore);
-
+    
         // Show the watering can after the correct answer is selected
         animateWateringCan(currentPlayer);
-
+    
         // Show the message box
         showMessageBox();
-
+    
         // Check if the current player has reached five correct answers
         if (currentScore === 5) {
-          setTimeout(() => {
-            endGame(currentPlayer);
-          }, 5000);
+          endGame(currentPlayer);
         } else {
           // Delay the next question for 4 seconds
           setTimeout(() => {
@@ -470,53 +460,58 @@
       } else {
         // Play incorrect answer sound
         playSound("incorrect-sound");
-
+    
         showCorrectAnswer();
         switchPlayer();
       }
     }
-
+    
     // Function to show the correct answer
     function showCorrectAnswer() {
       const idiom = document.getElementById("idiom").textContent;
       const correctAnswer = idioms.find(item => item.idiom === idiom).meaning;
       alert(`Time's up! The correct answer is: ${correctAnswer}`);
     }
-
+    
     // Function to switch the current player
     function switchPlayer() {
       currentPlayer = currentPlayer === 1 ? 2 : 1;
       document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
       startStage();
     }
-
+    
     // Function to end the game
     function endGame(winnerId) {
-  // Display the winner GIF
-  const winnerGif = document.getElementById("winner-gif");
-  winnerGif.style.display = "block";
+      // Display the winner GIF
+      const winnerGif = document.getElementById("winner-gif");
+      winnerGif.style.display = "block";
+    
+      // Display the winner message
+      const winnerName = winnerId === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
+      alert(`Congratulations, ${winnerName}! You win!`);
+    
+      // Reset the game variables and show the intro screen
+      currentPlayer = 1;
+      player1Score = 0;
+      player2Score = 0;
+      currentStage = 1;
+      document.getElementById("intro-screen").style.display = "block";
+      document.getElementById("game-screen").style.display = "none";
+      document.getElementById("background-music").pause();
+      document.getElementById("background-music").currentTime = 0;
+      winnerGif.style.display = "none";
+    }
 
-  // Display the winner message
-  const winnerName = winnerId === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
-  alert(`Congratulations, ${winnerName}! You win!`);
+    // Function to shuffle an array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
-  // Reset the game variables and show the intro screen
-  currentPlayer = 1;
-  player1Score = 0;
-  player2Score = 0;
-  currentStage = 1;
-  usedIdioms = [];
-  document.getElementById("intro-screen").style.display = "block";
-  document.getElementById("game-screen").style.display = "none";
-  document.getElementById("background-music").pause();
-  document.getElementById("background-music").currentTime = 0;
-  winnerGif.style.display = "none";
-}
-    // Add event listener for the "Start Game" button
-document.addEventListener("DOMContentLoaded", function() {
-  const startButton = document.getElementById("start-button");
-  startButton.addEventListener("click", startGame);
-});
+    // Event listener for the start button
+    document.getElementById("start-button").addEventListener("click", startGame);
   </script>
 </body>
 </html>
