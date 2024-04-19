@@ -8,7 +8,7 @@
       background-color: #f0f0f0;
       margin: 0;
       padding: 0;
-      background-image: url("path/to/greenfield.jpg");
+      background-image: url("greenfield.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -189,7 +189,7 @@
   <div class="container">
     <div id="intro-screen">
       <h1>Earth Day Idioms</h1>
-      <img id="intro-gif" class="intro-gif" src="path/to/intro.gif" alt="Intro GIF">
+      <img id="intro-gif" class="intro-gif" src="intro.gif" alt="Intro GIF">
       <div id="player-names">
         <input type="text" id="player1-name" placeholder="Player 1 Name">
         <input type="text" id="player2-name" placeholder="Player 2 Name">
@@ -209,29 +209,29 @@
         <div class="player">
           <p><span id="player1-name-flower"></span></p>
           <div class="flower-container">
-            <img id="player1-flower" class="flower" src="path/to/left_flower1.png" alt="Player 1 Flower">
-            <img id="player1-watering-can-before" class="watering-can-before" src="path/to/left_watercan.png" alt="Watering Can Before">
-            <img id="player1-watering-can" class="watering-can" src="path/to/left_watercan.gif" alt="Watering Can">
+            <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower">
+            <img id="player1-watering-can-before" class="watering-can-before" src="left_watercan.png" alt="Watering Can Before">
+            <img id="player1-watering-can" class="watering-can" src="left_watercan.gif" alt="Watering Can">
           </div>
         </div>
         <div class="player">
           <p><span id="player2-name-flower"></span></p>
           <div class="flower-container">
-            <img id="player2-flower" class="flower" src="path/to/right_flower1.png" alt="Player 2 Flower">
-            <img id="player2-watering-can-before" class="watering-can-before" src="path/to/right_watercan.png" alt="Watering Can Before">
-            <img id="player2-watering-can" class="watering-can" src="path/to/right_watercan.gif" alt="Watering Can">
+            <img id="player2-flower" class="flower" src="right_flower1.png" alt="Player 2 Flower">
+            <img id="player2-watering-can-before" class="watering-can-before" src="right_watercan.png" alt="Watering Can Before">
+            <img id="player2-watering-can" class="watering-can" src="right_watercan.gif" alt="Watering Can">
           </div>
         </div>
       </div>
     </div>
 
     <div id="message-box" class="message-box">Watch that flower grow!</div>
-    <img id="winner-gif" class="winner-gif" src="path/to/welove.gif" alt="Winner">
+    <img id="winner-gif" class="winner-gif" src="welove.gif" alt="Winner">
   </div>
 
-  <audio id="background-music" src="path/to/danube.mp3" loop></audio>
-  <audio id="correct-sound" src="path/to/waternoise.mp3"></audio>
-  <audio id="incorrect-sound" src="path/to/incorrect.mp3"></audio>
+  <audio id="background-music" src="danube.mp3" loop></audio>
+  <audio id="correct-sound" src="waternoise.mp3"></audio>
+  <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 
   <script>
     // JavaScript code for the game logic
@@ -375,7 +375,7 @@ function playSound(soundId) {
 // Function to update the flower image
 function updateFlowerImage(playerId, stage) {
   const flowerImage = document.getElementById(`player${playerId}-flower`);
-  flowerImage.src = `path/to/left_flower${stage}.png`;
+  flowerImage.src = `left_flower${stage}.png`;
 }
 
 // Function to show the watering can before the answer is selected
