@@ -138,7 +138,13 @@
       max-height: 200px;
       visibility: hidden;
     }
-
+    
+    .player-name-big {
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
     @keyframes pour {
       0% {
         transform: translateX(-50%) rotate(0deg);
@@ -219,6 +225,9 @@
 
       <div class="player-section">
         <div class="player">
+          <div class="player-name-big">
+            <span id="player1-name-flower-big"></span>
+          </div>
           <p><span id="player1-name-flower"></span></p>
           <div class="flower-container">
             <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower">
@@ -227,6 +236,9 @@
           </div>
         </div>
         <div class="player">
+          <div class="player-name-big">
+            <span id="player2-name-flower-big"></span>
+          </div>
           <p><span id="player2-name-flower"></span></p>
           <div class="flower-container">
             <img id="player2-flower" class="flower" src="left_flower1.png" alt="Player 2 Flower">
@@ -235,7 +247,7 @@
           </div>
         </div>
       </div>
-    </div>
+
 
     <div id="message-box" class="message-box">Watch that flower grow!</div>
     <img id="winner-gif" class="winner-gif" src="welove.gif" alt="Winner">
