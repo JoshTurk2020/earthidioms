@@ -512,6 +512,11 @@
   document.getElementById("background-music").currentTime = 0;
   winnerGif.style.display = "none";
 }
+    // Add event listener for the "Start Game" button
+document.addEventListener("DOMContentLoaded", function() {
+  const startButton = document.getElementById("start-button");
+  startButton.addEventListener("click", startGame);
+});
   </script>
 </body>
 </html>
