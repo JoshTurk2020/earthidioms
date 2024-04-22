@@ -195,31 +195,38 @@
 </head>
 <body>
   <div class="container">
-    <!-- Intro Screen -->
-    <!-- Game Screen -->
+    <div id="intro-screen">
+      <h1>Earth Day Idioms</h1>
+      <img id="intro-gif" class="intro-gif" src="happyearth.gif" alt="Intro GIF">
+      <div id="player-names">
+        <input type="text" id="player1-name" placeholder="Player 1 Name">
+        <input type="text" id="player2-name" placeholder="Player 2 Name">
+      </div>
+      <button id="start-button">Start Game</button>
+    </div>
+
     <div id="game-screen" style="display: none;">
-      <!-- Existing code -->
+      <h2><span id="current-player-name"></span>'s Turn</h2>
+      <p id="idiom"></p>
+      <ul id="options"></ul>
+      <p class="timer">Time Left: <span id="timer">30</span> seconds</p>
       <p class="score"><span id="player1-name-score"></span> Score: <span id="player1-score">0</span></p>
       <p class="score"><span id="player2-name-score"></span> Score: <span id="player2-score">0</span></p>
-      
-      <!-- Add Flower Points Display for Player 1 -->
-      <p class="flower-points"><span id="player1-name-flower-points"></span> Flower Points: <span id="player1-flower-points">0</span></p>
-
-      <!-- Add Flower Points Display for Player 2 -->
-      <p class="flower-points"><span id="player2-name-flower-points"></span> Flower Points: <span id="player2-flower-points">0</span></p>
 
       <div class="player-section">
         <div class="player">
-          <!-- Player 1's Flower Container -->
           <div class="flower-container">
-            <!-- Existing code -->
+            <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower">
+            <img id="player1-watering-can-before" class="watering-can-before" src="left_watercan.png" alt="Watering Can Before">
+            <img id="player1-watering-can" class="watering-can" src="left_watercan.gif" alt="Watering Can">
           </div>
           <p class="player-name-big" id="player1-name-flower"></p>
         </div>
         <div class="player">
-          <!-- Player 2's Flower Container -->
           <div class="flower-container">
-            <!-- Existing code -->
+            <img id="player2-flower" class="flower" src="left_flower1.png" alt="Player 2 Flower">
+            <img id="player2-watering-can-before" class="watering-can-before" src="right_watercan.png" alt="Watering Can Before">
+            <img id="player2-watering-can" class="watering-can-right" src="right_watercan.gif" alt="Watering Can">
           </div>
           <p class="player-name-big" id="player2-name-flower"></p>
         </div>
