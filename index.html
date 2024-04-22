@@ -522,10 +522,12 @@ function shuffleArray(array) {
 document.getElementById("start-button").addEventListener("click", startGame);
 
 // Event listener for removing the watering can before answers are selected
-document.getElementById("options").addEventListener("click", () => {
-  hideWateringCanBefore(currentPlayer);
+document.getElementById("game-screen").addEventListener("click", (event) => {
+  if (event.target.parentElement.id === "options") {
+    hideWateringCanBefore(currentPlayer);
+  }
 });
 
-  </script>
+</script>
 </body>
-</html> 
+</html>
