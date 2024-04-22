@@ -364,50 +364,34 @@
       });
     }
     
-    // Function to start the timer
-    function startTimer() {
-      let timeLeft = 20;
-      document.getElementById("timer").textContent = timeLeft;
-    
-      timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("timer").textContent = timeLeft;
-    
-        if (timeLeft === 0) {
-          clearInterval(timer);
-          showCorrectAnswer();
-          switchPlayer();
-        }
-      }, 1000);
-    
-      // Show the watering can before the answer is selected
-      showWateringCanBefore(currentPlayer);
+function startTimer() {
+  let timeLeft = 20;
+  document.getElementById("timer").textContent = timeLeft;
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").textContent = timeLeft;
+
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      showCorrectAnswer();
+      switchPlayer();
     }
-    
-    // Function to play sound effects
-    function playSound(soundId) {
-      const sound = document.getElementById(soundId);
-      sound.currentTime = 0;
-      sound.play();
-    }
-    
-    // Function to update the flower image
-    function updateFlowerImage(playerId, stage) {
-      const flowerImage = document.getElementById(`player${playerId}-flower`);
-      flowerImage.src = `left_flower${stage}.png`;
-    }
-    
-    // Function to show the watering can before the answer is selected
-    function showWateringCanBefore(playerId) {
-      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-      wateringCanBefore.style.visibility = "hidden";
-    }
-    
-    // Function to hide the watering can before the answer is selected
-    function hideWateringCanBefore(playerId) {
-      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-      wateringCanBefore.style.visibility = "hidden";
-    }
+  }, 1000);
+}
+
+// Function to play sound effects
+function playSound(soundId) {
+  const sound = document.getElementById(soundId);
+  sound.currentTime = 0;
+  sound.play();
+}
+
+// Function to update the flower image
+function updateFlowerImage(playerId, stage) {
+  const flowerImage = document.getElementById(`player${playerId}-flower`);
+  flowerImage.src = `left_flower${stage}.png`;
+}
     
     // Function to animate the watering can
     function animateWateringCan(playerId) {
