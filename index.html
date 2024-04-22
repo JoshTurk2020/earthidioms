@@ -396,11 +396,17 @@
   
     // Function to update the flower image
     // Function to update the flower image
-    function updateFlowerImage(playerId, stage) {
-        const flowerImage = document.getElementById(`player${playerId}-flower`);
-        let stageToDisplay = stage % 5 === 0 ? 1 : stage; // Reset to stage 1 when divisible by 5
-        if (stageToDisplay === 0) stageToDisplay = 5; // Special case when stage is divisible by 5 (5 % 5 === 0)
-        flowerImage.src = `left_flower${stageToDisplay}.png`;
+    // Function to update the flower image
+    function updateFlowerImage(playerId, flowerCount) {
+      const flowerImage = document.getElementById(`player${playerId}-flower`);
+      let flowerSrc = `left_flower${flowerCount}.png`;
+    
+      // Check if the flower count is greater than 5, and use the 5th flower image instead
+      if (flowerCount > 5) {
+        flowerSrc = `left_flower5.png`;
+      }
+    
+      flowerImage.src = flowerSrc;
     }
 
     // Function to animate the watering can
