@@ -433,18 +433,21 @@ function checkAnswer(selectedOption, correctAnswer) {
         if (currentPlayer === 1) {
             player1Score++;
             document.getElementById("player1-score").textContent = player1Score;
+            // Check if Player 1 has reached a score multiple of 5 (e.g., 5, 10, 15, etc.)
             if (player1Score % 5 === 0) {
-                player1FlowerPoints++;
-                resetFlowerStages(1);
+                player1FlowerPoints++; // Increment Player 1's flower points
+                updateFlowerImage(1, 1); // Reset Player 1's flower image to stage 1
             }
         } else {
             player2Score++;
             document.getElementById("player2-score").textContent = player2Score;
+            // Check if Player 2 has reached a score multiple of 5 (e.g., 5, 10, 15, etc.)
             if (player2Score % 5 === 0) {
-                player2FlowerPoints++;
-                resetFlowerStages(2);
+                player2FlowerPoints++; // Increment Player 2's flower points
+                updateFlowerImage(2, 1); // Reset Player 2's flower image to stage 1
             }
         }
+
 
         // Play correct answer sound
         playSound("correct-sound");
