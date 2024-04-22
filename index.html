@@ -388,11 +388,14 @@
     }
   
     // Function to update the flower image
+    // Function to update the flower image
     function updateFlowerImage(playerId, stage) {
         const flowerImage = document.getElementById(`player${playerId}-flower`);
-        const stageToDisplay = stage % 5 === 0 ? 1 : stage; // Reset to stage 1 when divisible by 5
+        let stageToDisplay = stage % 5 === 0 ? 1 : stage; // Reset to stage 1 when divisible by 5
+        if (stageToDisplay === 0) stageToDisplay = 5; // Special case when stage is divisible by 5 (5 % 5 === 0)
         flowerImage.src = `left_flower${stageToDisplay}.png`;
     }
+
     // Function to animate the watering can
     function animateWateringCan(playerId) {
       const wateringCan = document.getElementById(`player${playerId}-watering-can`);
