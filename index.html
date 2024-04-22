@@ -425,90 +425,92 @@ function updateFlowerImage(playerId, stage) {
     
     // Function to check the selected answer
     // Function to check the selected answer
-    function checkAnswer(selectedOption, correctAnswer) {
-        clearInterval(timer);
-      
-        if (selectedOption === correctAnswer) {
-          // Increment the score for the current player
-          if (currentPlayer === 1) {
-            player1Score++;
-            document.getElementById("player1-score").textContent = player1Score;
-          } else {
-            player2Score++;
-            document.getElementById("player2-score").textContent = player2Score;
-            // Show the right watering can after Player 2 answers correctly
-            document.getElementById("player2-watering-can").style.visibility = "visible";
-          }
-      
-          // Play correct answer sound
-          playSound("correct-sound");
-      
-          // Update the flower image
-          const currentScore = currentPlayer === 1 ? player1Score : player2Score;
-          updateFlowerImage(currentPlayer, currentScore);
-      
-          // Show the watering can after the correct answer is selected
-          animateWateringCan(currentPlayer);
-      
-          // Show the message box
-          showMessageBox();
-      
-          // Check if the current player has reached five correct answers
-          if (currentScore === 10) {
-            endGame(currentPlayer);
-          } else {
-            // Delay the next question for 4 seconds
-            setTimeout(() => {
-              hideMessageBox();
-              startStage();
-            }, 4000);
-          }
-        } else {
-          // Play incorrect answer sound
-          playSound("incorrect-sound");
-      
-          showCorrectAnswer();
-          switchPlayer();
-        }
-      }
+function checkAnswer(selectedOption, correctAnswer) {
+  clearInterval(timer);
 
+  if (selectedOption === correctAnswer) {
+    // Increment the score for the current player
+    if (currentPlayer === 1) {
+      player1Score++;
+      document.getElementById("player1-score").textContent = player1Score;
+    } else {
+      player2Score++;
+      document.getElementById("player2-score").textContent = player2Score;
+    }
 
-    
-    // Function to show the correct answer
-    function showCorrectAnswer() {
-      const idiom = document.getElementById("idiom").textContent;
-      const correctAnswer = idioms.find(item => item.idiom === idiom).meaning;
-      alert(`Time's up! The correct answer is: ${correctAnswer}`);
+    // Play correct answer sound
+    playSound("correct-sound");
+
+    // Show the watering can after the correct answer is selected
+    animateWateringCan(currentPlayer);
+
+    // Update the flower image based on the player's score
+    updateFlowerImage(currentPlayer, getCurrentPlayerFlowers());
+
+    // Show the message box
+    showMessageBox();
+
+    // Check if the player has reached 10 correct answers
+    if (getCurrentPlayerScore() === 10) {
+      // Increment the flower count for the current player
+      incrementFlowerCount(currentPlayer);
+
+      // Reset the player's score to 0
+      resetPlayerScore(currentPlayer);
+
+      // Update the flower image based on the player's new flower count
+      updateFlowerImage(currentPlayer, getCurrentPlayerFlowers());
     }
-    
-    // Function to switch the current player
-    function switchPlayer() {
-      currentPlayer = currentPlayer === 1 ? 2 : 1;
-      document.getElementById("current-player-name").textContent = currentPlayer === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
-      startStage();
+
+    // Check if the game is over
+    if (getCurrentPlayerFlowers() === 5) {
+      endGame();
+    } else {
+      // Delay the next question for 4 seconds
+      setTimeout(() => {
+        hideMessageBox();
+        startStage();
+      }, 4000);
     }
-    
-    // Function to end the game
-    function endGame(winnerId) {
-      // Display the winner GIF
-      const winnerGif = document.getElementById("winner-gif");
-      winnerGif.style.display = "block";
-    
-      // Display the winner message
-      const winnerName = winnerId === 1 ? document.getElementById("player1-name").value : document.getElementById("player2-name").value;
-      alert(`Congratulations, ${winnerName}! You win!`);
-    
-      // Reset the game variables and show the intro screen
-      currentPlayer = 1;
-      player1Score = 0;
-      player2Score = 0;
-      currentStage = 1;
-      document.getElementById("intro-screen").style.display = "block";
-      document.getElementById("game-screen").style.display = "none";
-      document.getElementById("background-music").pause();
-      document.getElementById("background-music").currentTime = 0;
-      winnerGif.style.display = "none";
-    }
+  } else {
+    // Play incorrect answer sound
+    playSound("incorrect-sound");
+
+    showCorrectAnswer();
+    switchPlayer();
+  }
+}
+
+// Function to update the flower image
+function updateFlowerImage(playerId, flowerCount) {
+  const flowerImage = document.getElementById(`player${playerId}-flower`);
+  flowerImage.src = `left_flower${flowerCount + 1}.png`;
+}
+
+// Function to end the game
+function endGame() {
+  // Determine the winner based on the flower count
+  if (player1Flowers > player2Flowers) {
+    showWinnerMessage(document.getElementById("player1-name").value);
+  } else if (player2Flowers > player1Flowers) {
+    showWinnerMessage(document.getElementById("player2-name").value);
+  } else {
+    showWinnerMessage("It's a tie!");
+  }
+
+  // Reset the game variables and show the intro screen
+  currentPlayer = 1;
+  player1Score = 0;
+  player1Flowers = 0;
+  player2Score = 0;
+  player2Flowers = 0;
+  currentStage = 1;
+  document.getElementById("intro-screen").style.display = "block";
+  document.getElementById("game-screen").style.display = "none";
+  document.getElementById("background-music").pause();
+  document.getElementById("background-music").currentTime = 0;
+  document.getElementById("winner-gif").style.display = "none";
+}
 
     // Function to shuffle an array
     function shuffleArray(array) {
