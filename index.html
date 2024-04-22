@@ -1,3 +1,8 @@
+Pasted content
+22.01 KB • 546 extracted lines
+
+Formatting may be inconsistent from source.
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,7 +122,7 @@
       left: -50px; /* Adjusted left position for Player 1's watering can */
       max-width: 200px;
       max-height: 200px;
-      visibility: visible;
+      visibility: hidden;
     }
     
     .watering-can-right {
@@ -126,7 +131,7 @@
       left: calc(50% + 200px); /* Adjusted left position for Player 2's watering can */
       max-width: 200px;
       max-height: 200px;
-      visibility: visible;
+      visibility: hidden;
     }
  
     .player-name-big {
@@ -216,7 +221,8 @@
       <div class="player-section">
         <div class="player">
           <div class="flower-container">
-            <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower"> 
+            <img id="player1-flower" class="flower" src="left_flower1.png" alt="Player 1 Flower">
+            <img id="player1-watering-can-before" class="watering-can-before" src="left_watercan.png" alt="Watering Can Before">
             <img id="player1-watering-can" class="watering-can" src="left_watercan.gif" alt="Watering Can">
           </div>
           <p class="player-name-big" id="player1-name-flower"></p>
@@ -224,7 +230,8 @@
         <div class="player">
           <div class="flower-container">
             <img id="player2-flower" class="flower" src="left_flower1.png" alt="Player 2 Flower">
-            <img id="player2-watering-can" class="watering-can" src="right_watercan.gif" alt="Watering Can">
+            <img id="player2-watering-can-before" class="watering-can-before" src="right_watercan.png" alt="Watering Can Before">
+            <img id="player2-watering-can" class="watering-can-right" src="right_watercan.gif" alt="Watering Can">
           </div>
           <p class="player-name-big" id="player2-name-flower"></p>
         </div>
@@ -395,6 +402,18 @@
       flowerImage.src = `left_flower${stage}.png`;
     }
     
+    // Function to show the watering can before the answer is selected
+    function showWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "hidden";
+    }
+    
+    // Function to hide the watering can before the answer is selected
+    function hideWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "hidden";
+    }
+    
     // Function to animate the watering can
     function animateWateringCan(playerId) {
       const wateringCan = document.getElementById(`player${playerId}-watering-can`);
@@ -522,6 +541,11 @@
 
     // Event listener for the start button
     document.getElementById("start-button").addEventListener("click", startGame);
+
+    // Event listener for removing the watering can before answers are selected
+    document.getElementById("options").addEventListener("click", () => {
+      hideWateringCanBefore(currentPlayer);
+    });
   </script>
 </body>
-</html> 
+</html>  
