@@ -377,10 +377,6 @@ function startTimer() {
     }
   }, 1000);
 
-  // Show the watering can before the answer is selected
-  showWateringCanBefore(currentPlayer);
-}
-
 // Function to play sound effects
 function playSound(soundId) {
   const sound = document.getElementById(soundId);
@@ -392,12 +388,6 @@ function playSound(soundId) {
 function updateFlowerImage(playerId, stage) {
   const flowerImage = document.getElementById(`player${playerId}-flower`);
   flowerImage.src = `left_flower${stage}.png`;
-}
-
-// Function to show the watering can before the answer is selected
-function showWateringCanBefore(playerId) {
-  const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
-  wateringCanBefore.style.visibility = "hidden";
 }
 
 // Function to hide the watering can before the answer is selected
