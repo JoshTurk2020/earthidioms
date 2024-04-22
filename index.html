@@ -425,55 +425,60 @@ function updateFlowerImage(playerId, stage) {
     
     // Function to check the selected answer
     // Function to check the selected answer
-    function checkAnswer(selectedOption, correctAnswer) {
-        clearInterval(timer);
-      
-        if (selectedOption === correctAnswer) {
-          // Increment the score for the current player
-          if (currentPlayer === 1) {
+function checkAnswer(selectedOption, correctAnswer) {
+    clearInterval(timer);
+
+    if (selectedOption === correctAnswer) {
+        // Increment the score for the current player
+        if (currentPlayer === 1) {
             player1Score++;
             document.getElementById("player1-score").textContent = player1Score;
-          } else {
+            if (player1Score % 5 === 0) {
+                player1FlowerPoints++;
+                resetFlowerStages(1);
+            }
+        } else {
             player2Score++;
             document.getElementById("player2-score").textContent = player2Score;
-            // Show the right watering can after Player 2 answers correctly
-            document.getElementById("player2-watering-can").style.visibility = "visible";
-          }
-      
-          // Play correct answer sound
-          playSound("correct-sound");
-      
-          // Update the flower image
-          const currentScore = currentPlayer === 1 ? player1Score : player2Score;
-          updateFlowerImage(currentPlayer, currentScore);
-      
-          // Show the watering can after the correct answer is selected
-          animateWateringCan(currentPlayer);
-      
-          // Show the message box
-          showMessageBox();
-      
-          // Check if the current player has reached five correct answers
-          if (currentScore === 10) {
+            if (player2Score % 5 === 0) {
+                player2FlowerPoints++;
+                resetFlowerStages(2);
+            }
+        }
+
+        // Play correct answer sound
+        playSound("correct-sound");
+
+        // Update the flower image
+        const currentScore = currentPlayer === 1 ? player1Score : player2Score;
+        updateFlowerImage(currentPlayer, currentScore);
+
+        // Show the watering can after the correct answer is selected
+        animateWateringCan(currentPlayer);
+
+        // Show the message box
+        showMessageBox();
+
+        // Check if the current player has reached twenty five correct answers (5 flower points)
+        if (currentScore === 25) {
             endGame(currentPlayer);
-          } else {
+        } else {
             // Delay the next question for 4 seconds
             setTimeout(() => {
-              hideMessageBox();
-              startStage();
+                hideMessageBox();
+                startStage();
             }, 4000);
-          }
-        } else {
-          // Play incorrect answer sound
-          playSound("incorrect-sound");
-      
-          showCorrectAnswer();
-          switchPlayer();
         }
-      }
+    } else {
+        // Play incorrect answer sound
+        playSound("incorrect-sound");
+
+        showCorrectAnswer();
+        switchPlayer();
+    }
+}
 
 
-    
     // Function to show the correct answer
     function showCorrectAnswer() {
       const idiom = document.getElementById("idiom").textContent;
