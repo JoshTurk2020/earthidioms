@@ -449,6 +449,10 @@
       const messageBox = document.getElementById("message-box");
       messageBox.style.display = "none";
     }
+    function hideWateringCanBefore(playerId) {
+      const wateringCanBefore = document.getElementById(`player${playerId}-watering-can-before`);
+      wateringCanBefore.style.visibility = "hidden";
+    }
     
     // Function to check the selected answer
     function checkAnswer(selectedOption, correctAnswer) {
